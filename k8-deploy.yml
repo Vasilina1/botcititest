@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-depl-image-zvarich
+spec:
+  selector:
+    matchLabels:
+      app: kafka-image-zvarich
+  template:
+    metadata:
+      labels:
+        app: kafka-image-zvarich
+    spec:
+      containers:
+      - name: kafka-image-zvarich
+        image: zvarich/data-management:image-resizer #докер хаб имя
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: SERVICE_NAME
+            value: zvarich.image-resizer
+          - name: PORT
+            value: "5000"
+          - name: HOST
+            value: 0.0.0.0
+          - name: ENCODING
+            value: UTF-8
+          - name: BASE_API
+            value: /zvarich/api/v1/image
